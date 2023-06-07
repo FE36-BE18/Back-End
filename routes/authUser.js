@@ -8,6 +8,7 @@ const { registerValidation } = require("../configs/validation");
 
 // import models
 const User = require("../models/User");
+const verifyToken = require("./verifyToken");
 
 // validateUser
 const validateUserRegister = async (req, res, next) => {
@@ -57,6 +58,7 @@ router.post("/register", validateUserRegister, async (req, res) => {
   }
 });
 
+// Login
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
   // if email exist
@@ -96,9 +98,80 @@ router.post("/login", async (req, res) => {
   });
 });
 
-// router.get("/", async (req, res) => {
-//   const data = await User.find({});
-//   res.json(data);
-// });
+// get user by id
+router.get("/:id", async (req, res) => {
+  try {
+    const data = await User.findById(req.params.id);
+
+    if (!data) {
+      return res.status(404).json({
+        status: res.statusCode,
+        message: "User not found",
+      });
+    }
+    res.status(200).json(data);
+  } catch (error) {
+    res.status(400).json({
+      status: res.statusCode,
+      message: "Error",
+    });
+  }
+});
+
+// update user by id
+router.put("/:id", verifyToken, async (req, res) => {
+  const { name, password, gender } = req.body;
+  try {
+    if (name == "" || password == "" || gender == "") {
+      return res.status(400).json({
+        status: res.statusCode,
+        message: "Data cannot be empty",
+      });
+    }
+
+    const salt = await bcrypt.genSalt(10);
+    const hashPassword = await bcrypt.hash(password, salt);
+    await User.findByIdAndUpdate(req.params.id, {
+      name: name,
+      password: hashPassword,
+      gender: gender,
+    }).then(
+      res.status(200).json({
+        status: res.statusCode,
+        message: "Success",
+      })
+    );
+  } catch (error) {
+    res.status(400).json({
+      status: res.statusCode,
+      message: "Error when update data",
+    });
+  }
+});
+
+router.delete("/:id", verifyToken, async (req, res) => {
+  try {
+    const data = await User.findById(req.params.id);
+    if (!data) {
+      res.status(404).json({
+        status: statusCode,
+        message: "User not found",
+      });
+    }
+    await User.deleteOne({
+      _id: req.params.id,
+    }).then(
+      res.status(200).json({
+        status: res.statusCode,
+        message: "Successfully deleted the user",
+      })
+    );
+  } catch (error) {
+    return res.status(404).json({
+      status: res.statusCode,
+      message: "User not found",
+    });
+  }
+});
 
 module.exports = router;
