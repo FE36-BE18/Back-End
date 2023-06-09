@@ -8,7 +8,7 @@ const { registerValidation } = require("../configs/validation");
 
 // import models
 const User = require("../models/User");
-const verifyToken = require("./verifyToken");
+const { verifyToken } = require("./verifyToken");
 
 // validateUser
 const validateUserRegister = async (req, res, next) => {
