@@ -8,7 +8,7 @@ const { registerValidation } = require("../configs/validation");
 
 // import models
 const User = require("../models/User");
-const { verifyToken } = require("./verifyToken");
+const { verifyToken, verifyAdmin } = require("./verifyToken");
 
 // validateUser
 const validateUserRegister = async (req, res, next) => {
@@ -102,6 +102,25 @@ router.post("/login", async (req, res) => {
 router.get("/:id", async (req, res) => {
   try {
     const data = await User.findById(req.params.id);
+
+    if (!data) {
+      return res.status(404).json({
+        status: res.statusCode,
+        message: "User not found",
+      });
+    }
+    res.status(200).json(data);
+  } catch (error) {
+    res.status(400).json({
+      status: res.statusCode,
+      message: "Error",
+    });
+  }
+});
+// get user role user
+router.get("/", verifyAdmin, async (req, res) => {
+  try {
+    const data = await User.find({});
 
     if (!data) {
       return res.status(404).json({
