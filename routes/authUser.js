@@ -99,7 +99,7 @@ router.post("/login", async (req, res) => {
 });
 
 // get user by id
-router.get("/:id", async (req, res) => {
+router.get("/:id", verifyToken, async (req, res) => {
   try {
     const data = await User.findById(req.params.id);
 
@@ -117,7 +117,7 @@ router.get("/:id", async (req, res) => {
     });
   }
 });
-// get user role user
+// get user role admin
 router.get("/", verifyAdmin, async (req, res) => {
   try {
     const data = await User.find({});
