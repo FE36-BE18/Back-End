@@ -58,11 +58,12 @@ router.get("/:id", async (req, res) => {
 });
 
 router.post("/", verifyAdmin, async (req, res) => {
-  const { name, calory, proteins, carbo, fat, carbon, calLevel, category } = req.body;
+  const { name, img, calory, proteins, carbo, fat, carbon, calLevel, category } = req.body;
 
   // create category
   const food = new Food({
     name: name,
+    img: img,
     calory: calory,
     proteins: proteins,
     carbo: carbo,
@@ -83,11 +84,12 @@ router.post("/", verifyAdmin, async (req, res) => {
 
 // update food by id
 router.put("/:id", verifyAdmin, async (req, res) => {
-  const { name, calory, proteins, carbo, fat, carbon, calLevel, category } = req.body;
+  const { name, img, calory, proteins, carbo, fat, carbon, calLevel, category } = req.body;
 
   try {
     await Food.findByIdAndUpdate(req.params.id, {
       name: name,
+      img: img,
       calory: calory,
       proteins: proteins,
       carbo: carbo,

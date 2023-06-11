@@ -179,6 +179,7 @@
   // body
   {
     "name" : "String",
+    "img": "String" ,
     "calory" : Int,
     "proteins": Int,
     "carbo": Int,
@@ -203,6 +204,7 @@
   // body
   {
     "name" : "String",
+    "img": "String" ,
     "calory" : Int,
     "proteins": Int,
     "carbo": Int,

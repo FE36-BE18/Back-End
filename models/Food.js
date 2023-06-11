@@ -6,6 +6,10 @@ const foodSchema = mongoose.Schema({
     required: true,
     max: 255,
   },
+  img: {
+    type: String,
+    required: false,
+  },
   calory: {
     type: Number,
     required: true,
