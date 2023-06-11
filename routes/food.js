@@ -86,22 +86,6 @@ router.put("/:id", verifyAdmin, async (req, res) => {
   const { name, calory, proteins, carbo, fat, carbon, calLevel, category } = req.body;
 
   try {
-    if (
-      name == null ||
-      calory == null ||
-      proteins == null ||
-      carbo == null ||
-      fat == null ||
-      carbon == null ||
-      calLevel == null ||
-      category == null
-    ) {
-      return res.status(400).json({
-        status: res.statusCode,
-        message: "Data cannot be empty",
-      });
-    }
-
     await Food.findByIdAndUpdate(req.params.id, {
       name: name,
       calory: calory,
