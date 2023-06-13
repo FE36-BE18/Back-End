@@ -9,6 +9,7 @@ const { registerValidation } = require("../configs/validation");
 // import models
 const User = require("../models/User");
 const { verifyToken, verifyAdmin } = require("./verifyToken");
+const Journal = require("../models/Journal");
 
 // validateUser
 const validateUserRegister = async (req, res, next) => {
@@ -179,12 +180,14 @@ router.delete("/:id", verifyToken, async (req, res) => {
     }
     await User.deleteOne({
       _id: req.params.id,
-    }).then(
-      res.status(200).json({
-        status: res.statusCode,
-        message: "Successfully deleted the user",
-      })
-    );
+    })
+      .then(await Journal.deleteMany({ user: req.params.id }))
+      .then(
+        res.status(200).json({
+          status: res.statusCode,
+          message: "Successfully deleted the user",
+        })
+      );
   } catch (error) {
     return res.status(404).json({
       status: res.statusCode,

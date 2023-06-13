@@ -7,8 +7,9 @@ const { verifyAdmin } = require("./verifyToken");
 router.get("/", async (req, res) => {
   try {
     await Food.find({})
-      .populate("calLevel")
-      .populate("category")
+      .lean()
+      .populate("calLevel", "level")
+      .populate("category", "name")
       .then((food, err) => {
         if (err) {
           res.status(404).json({
@@ -30,8 +31,8 @@ router.get("/", async (req, res) => {
 router.get("/:id", async (req, res) => {
   try {
     const dataFood = await Food.findById(req.params.id)
-      .populate("calLevel")
-      .populate("category")
+      .populate("calLevel", "level")
+      .populate("category", "name")
       .then((food, err) => {
         if (err) {
           res.status(404).json({
