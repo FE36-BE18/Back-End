@@ -13,6 +13,7 @@ const userRoutes = require("./routes/authUser");
 const categoryRoutes = require("./routes/category");
 const levelRoutes = require("./routes/level");
 const foodRoutes = require("./routes/food");
+const articleRoutes = require("./routes/article");
 const journalRoutes = require("./routes/journal");
 
 // routes example
@@ -20,6 +21,7 @@ app.use("/user", userRoutes);
 app.use("/category", categoryRoutes);
 app.use("/level", levelRoutes);
 app.use("/food", foodRoutes);
+app.use("/article", articleRoutes);
 app.use("/journal", journalRoutes);
 
 // connect to DB
