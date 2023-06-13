@@ -11,12 +11,14 @@ const userRoutes = require("./routes/authUser");
 const categoryRoutes = require("./routes/category");
 const levelRoutes = require("./routes/level");
 const foodRoutes = require("./routes/food");
+const articleRoutes = require("./routes/article");
 
 // routes example
 app.use("/user", userRoutes);
 app.use("/category", categoryRoutes);
 app.use("/level", levelRoutes);
 app.use("/food", foodRoutes);
+app.use("/article", articleRoutes);
 
 // connect to DB
 mongoose.connect(process.env.DB_CONNECTION, {
