@@ -57,6 +57,35 @@ router.get("/:id", async (req, res) => {
     });
   }
 });
+router.get("/level/:id", async (req, res) => {
+  try {
+    const dataFood = await Food.find({ calLevel: req.params.id })
+      .populate("calLevel", "level")
+      .populate("category", "name")
+      .then((food, err) => {
+        if (err) {
+          res.status(404).json({
+            status: res.statusCode,
+            message: err.message,
+          });
+        } else {
+          return food;
+        }
+      });
+    if (!dataFood) {
+      return res.status(404).json({
+        status: res.statusCode,
+        message: "Food not found",
+      });
+    }
+    res.status(200).json(dataFood);
+  } catch (error) {
+    res.status(400).json({
+      status: res.statusCode,
+      message: error.message,
+    });
+  }
+});
 
 router.post("/", verifyAdmin, async (req, res) => {
   const { name, img, calory, proteins, carbo, fat, carbon, calLevel, category } = req.body;
